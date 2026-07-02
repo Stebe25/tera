@@ -945,6 +945,7 @@ impl<'tera> VirtualMachine<'tera> {
 
         let mut state = State::new_with_chunk(&context, chunk);
         state.filters = Some(&self.tera.filters);
+        state.global_context = Some(&self.tera.global_context);
         let mut output = Vec::with_capacity(1024);
         vm.interpret(&mut state, &mut output)?;
 

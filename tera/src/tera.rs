@@ -75,7 +75,7 @@ pub struct Tera {
     pub(crate) autoescape_suffixes: Vec<Cow<'static, str>>,
     #[doc(hidden)]
     pub(crate) escape_fn: EscapeFn,
-    global_context: Context,
+    pub(crate) global_context: Context,
     pub(crate) filters: HashMap<Cow<'static, str>, StoredFilter>,
     pub(crate) tests: HashMap<Cow<'static, str>, StoredTest>,
     pub(crate) functions: HashMap<Cow<'static, str>, StoredFunction>,
