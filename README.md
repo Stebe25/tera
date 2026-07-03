@@ -1,3 +1,7 @@
+Quality of life changes:
+- components get access to the global context
+- components automatically get access to lang and config (config will be removed later, maybe lang too)
+
 # Tera
 
 For v1 users: see [migration guide](./MIGRATION.md).
