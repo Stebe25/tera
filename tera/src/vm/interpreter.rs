@@ -160,7 +160,7 @@ impl<'tera> VirtualMachine<'tera> {
                     None
                 };
 
-                let context = match component_def.build_context(
+                let mut context = match component_def.build_context(
                     kwargs.keys().filter_map(|k| k.as_str()),
                     |key| kwargs.get(&Key::Str(key)).cloned(),
                     body,
@@ -168,6 +168,15 @@ impl<'tera> VirtualMachine<'tera> {
                     Ok(ctx) => ctx,
                     Err(msg) => rendering_error!(msg, current_span),
                 };
+                
+                // qol for zola
+                // automatically pass lang and config (config will be removed later, maybe lang too)
+                if let Some(val) = state.context.get("lang") {
+                    context.insert_value("lang", val.clone());
+                }
+                if let Some(val) = state.context.get("config") {
+                    context.insert_value("config", val.clone());
+                }
 
                 let val = match self.render_component(&component_chunk, context) {
                     Ok(v) => v,
