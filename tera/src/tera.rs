@@ -1843,3 +1843,25 @@ mod tests {
         assert_eq!(outer, "<o>inner</o>");
     }
 }
+
+#[test]
+fn test_components_with_global_context() {
+    let mut tera = Tera::default();
+    tera.global_context().insert("data", "data");
+    
+    tera.add_raw_template(
+        "components.html",
+        r#"{% component component() %}{{ data }} {{ lang }} {{ config }}{% endcomponent %}"#,
+    )
+    .unwrap();
+    tera.add_raw_template(
+        "template.html",
+        "{{ <component /> }}",
+    )
+    .unwrap();
+    
+    let mut ctx = Context::new();
+    ctx.insert("lang", "lang");
+    ctx.insert("config", "config");
+    assert_eq!(tera.render("template.html", &ctx).unwrap(), "data lang config");
+}
